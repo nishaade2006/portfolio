@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nisha Ade | Portfolio</title>
+
+<style>
+/* 🌙 Modern Gradient Theme */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  color: #333;
+}
+
+/* Glassmorphism Header */
+header {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.1);
+  color: pink;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+}
+
+nav a {
+  color: pink;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #ffd369;
+}
+
+/* Section Cards */
+section {
+  background: pink;
+  margin: 30px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  animation: fadeIn 1s ease;
+}
+
+/* Headings */
+h2 {
+  color: #764ba2;
+}
+
+/* Projects Grid */
+#projects {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.project {
+  flex: 1 1 45%;
+  padding: 20px;
+  border-radius: 10px;
+  background: #f5f7ff;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input, textarea {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Button */
+button {
+  background: #764ba2;
+  color: pink;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #5a3d91;
+}
+
+/* Feedback */
+#feedbackList {
+  margin-top: 15px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px;
+  color: white;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <h1>Nisha Ade</h1>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section id="about">
+  <h2>About Me</h2>
+  <p>I am an HR professional passionate with experience in recruitment, employee engagement, and operations.I’ve worked on building strong workplace cultures, streamlining HR processes, and supporting organizational growth through people-first strategies. I enjoy connecting with individuals, understanding their potential, and helping them thrive in their professional journey.<p>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+
+  <div class="project">
+    <h3>HR Dashboard</h3>
+    <p>Interactive dashboard showing hiring trends and analytics.</p>
+  </div>
+
+  <div class="project">
+    <h3>Employee Tracker</h3>
+    <p>Tool to manage employee data efficiently.</p>
+  </div>
+
+</section>
+
+<section id="contact">
+  <h2>Feedback Form</h2>
+
+  <form id="form">
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="email" id="email" placeholder="Enter Email">
+    <textarea id="message" placeholder="Your Feedback"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="success"></p>
+  <div id="feedbackList"></div>
+</section>
+
+<footer>
+  <p>© 2026 Nisha Ade</p>
+</footer>
+
+<script>
+const form = document.getElementById("form");
+const success = document.getElementById("success");
+const list = document.getElementById("feedbackList");
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let name = document.getElementById("name").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let message = document.getElementById("message").value.trim();
+
+  // Validation
+  if (name === "") {
+    alert("Name cannot be empty");
+    return;
+  }
+
+  if (!email.includes("@")) {
+    alert("Enter valid email");
+    return;
+  }
+
+  let feedback = { name, message };
+
+  // Local Storage
+  let data = JSON.parse(localStorage.getItem("feedback")) || [];
+  data.push(feedback);
+  localStorage.setItem("feedback", JSON.stringify(data));
+
+  // DOM Message
+  success.innerText = "✅ Feedback submitted successfully!";
+
+  displayFeedback();
+  form.reset();
+});
+
+function displayFeedback() {
+  let data = JSON.parse(localStorage.getItem("feedback")) || [];
+  list.innerHTML = "<h3>Feedback:</h3>";
+
+  data.forEach(item => {
+    let p = document.createElement("p");
+    p.innerHTML = `<strong>${item.name}</strong>: ${item.message}`;
+    list.appendChild(p);
+  });
+}
+
+displayFeedback();
+</script>
+
+</body>
+</html>
