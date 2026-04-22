@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Task Manager</h2>
+
+<input id="taskInput">
+<button onclick="addTask()">Add Task</button>
+
+<ul id="list"></ul>
+
+<script>
+const userId = "demoUser"; // for simplicity
+
+async function addTask() {
+  await fetch("/api/tasks", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      userId,
+      title: taskInput.value
+    })
+  });
+  loadTasks();
+}
+
+async function loadTasks() {
+  const res = await fetch(`/api/tasks/${userId}`);
+  const tasks = await res.json();
+
+  list.innerHTML = "";
+  tasks.forEach(t => {
+    list.innerHTML += `
+      <li>
+        ${t.title}
+        <button onclick="deleteTask('${t._id}')">Delete</button>
+      </li>`;
+  });
+}
+
+async function deleteTask(id) {
+  await fetch("/api/tasks/" + id, { method: "DELETE" });
+  loadTasks();
+}
+
+loadTasks();
+</script>
+
+</body>
+</html>
